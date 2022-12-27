@@ -1,0 +1,29 @@
+{% load static %}
+<!--/. NAV TOP  -->
+<nav class="navbar-default navbar-side" role="navigation">
+    <div class="sidebar-collapse">
+        <ul class="nav" id="main-menu">
+
+            <li>
+                <a class="active-menu" href="{% url 'display_tenant_account' %}"><i class="fa fa-dashboard"></i> Dashboard</a>
+            </li>
+            <li>
+                <a href="{% url 'tenant_info' %}"><i class="fa fa-desktop"></i> Info</a>
+            </li>
+            <li>
+                <a href="{% url 'tenant_rent' %}"><i class="fa fa-table"></i> Rent</a>
+            </li>
+            <li>
+                <a href="{% url 'tenant_payment' %}"><i class="fa fa-edit"></i> Payments</a>
+            </li>
+            <li>
+                <a href="{% url 'tenant_comment' %}"><i class="fa fa-edit"></i> Comments</a>
+            </li>
+            <li>
+                <a href="{% url 'tenant_comment' %}"><i class="fa fa-edit"></i> Clear</a>
+            </li>
+        </ul>
+
+    </div>
+
+</nav>

@@ -1,0 +1,116 @@
+{% extends 'signed/skeleton.html' %}
+{% block content %}
+<div id="page-wrapper" >
+    <div id="page-inner">
+	    <div class="row">
+            <div class="col-md-12">
+                <h1 class="page-header">
+                    {{ tenant_name }} <small>United Plaza</small>
+                </h1>
+            </div>
+        </div> 
+              <!-- /. ROW  -->
+        <div class="row">
+          <div class="col-md-12">
+            <div class="panel panel-default">
+	            <div class="panel-heading">
+	                Messages
+	            </div>        
+				<div class="panel-body">
+					
+					{% for message in message %}
+					<div class="alert alert-success">
+					<ul>
+						<li>
+                    		<div>
+                            	<strong>{{message.sender}}</strong>
+                            	<span class="pull-right text-muted">
+                                	<em>{{ message.date }}</em>
+                            	</span>
+                        	</div>
+                        	<div> {{ message.message }}</div>
+                    	</li>
+					</ul>
+					</div>
+					{% endfor %}
+					
+
+				</div>
+	        </div>
+        </div				
+	</div>
+</div>						
+
+<!--  Modals-->
+<div class="panel panel-default">
+	<div class="panel-heading">
+		Agreement
+	</div>
+	<div class="panel-body">
+		<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+		  Read Agreement
+		</button>
+		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						<h4 class="modal-title" id="myModalLabel">Tenancy Agreement</h4>
+					</div>
+					<div class="modal-body">
+						TENANCY AGREEMENT
+AGREES AS FOLLOWS:
+A)	Rent<br>
+Rent is payable on or before 5th of every month through the specific bank account number:<br>
+CO-OPERATIVE BANK A/C NO 01116073936900 <br>
+Account Name: SIMON MWANGI GATHURU <br>
+1.	Rent payable monthly is Kshs before the 5th of every month. <br>
+2.	Access will be denied to tenants who will not have paid their rent by 10th of every month unless on prior arrangement. <br>
+3.	Rent paid is not refundable and will be applicable in the month for which it is paid. <br>
+4.	Either party can terminate this agreement by giving one month notice in writing or by giving a one month rent equivalent notice. <br>
+5.	It is hereby mutually agreed that in default on the part of the tenant especially if the tenant fails to pay his or her rent the landlord will immediately effect the legal steps of rental distress in order to recover all arrears, penalties at the tenant costs. <br>
+B)	Deposit <br>
+1.	The tenant is expected to keep his/her deposit as follows; <br>
+2.	Deposit of one month equivalent monthly rent will be payable <br>
+3.	Deposit must be paid before assuming occupancy or otherwise arranged by agents. <br>
+4.	Deposit refund will be done only after the elapse of one month notice issued by the tenant and on confirmation that there are no cost deductions due. <br>
+5.	Refund will be released only to the person who signed the agreement. <br>
+6.	Any tenant vacating the house without notice will be deemed to have forfeited his or her deposit. <br>
+7.	The tenant is expected before receiving back his or her deposit to have returned back the house in its normal outlook as per the first time of occupancy. (This includes painting and replacement of broken items etc.) The caretaker will inspect the room and ascertain that it is proper condition before releasing the deposit. <br>
+8.	In the event of failure to move out upon issuing a vacation notice, tenant will be liable for any inconvenience and/or cost incurred by another tenant, the landlord because of change of decision. <br>
+C)	OTHER CONDITIONS <br>
+1.	Cost of damage will be met by the tenant in case they incurred during occupancy. <br>
+2.	All tenant must show proof of payment of electricity bills every month before receiving official receipt. <br>
+3.	The landlord shall not be responsible for the loss or damage (theft or injury) to the tenant during occupancy (tenant). <br>
+4.	All tenant are required to go about their daily duties responsibly within the property. The management will not condone any misconduct on the part of any tenant that may adversely affect other tenant. <br>
+5.	Any tenant found partaking illegal substances will be evicted immediately. <br>
+6.	Tenant shall pay a service charge for garbage collection and other maintenance agreed to. <br>
+7.	Tenant shall not use or permit use of the residence for any unauthorized or unlawful purpose. <br>
+8.	Tenant shall not interfere with or alter any part of the structure of the residence without prior consent of the landlord.  <br>
+9.	Tenant shall keep, observe and maintain all the interior and exterior fixtures, furniture fitting, electrical fittings and other fitting and incase of any breakage, damage or loss each tenant must replace at his own cost immediately. <br>
+10.	Tenant shall use the said premises for residential purpose only. <br>
+11.	Tenant shall permit the landlord and his appointed caretaker to enter premise to inspect it. <br>
+12.	Condition but during reasonable time. <br>
+13.	Tenant shall not Transfer or Sublet the premises to any other person and if this occur, the new occupant will be subject to eviction without notice. <br>
+14.	Each tenant must ensure his/her area of verandah is kept clear, clean and tidy.  <br>
+15.	Household items held against non-payment of rent will only be held for two months and thereafter sold to defray the cost. <br>
+D)	Security/Safety <br>
+Only one tenant is designated to occupy the room. Any additional occupant will have to be authorized by the caretaker with express permission from the landlord. Contravention of this requirement will result into immediate eviction. <br>
+Tenant shall not leave taps open or electricity and gas switches on when leaving the house. <br>
+Tenant is expected to use the provided facilities responsibly without endangering themselves and other tenants. <br>
+Tenants should ensure they lock the gate always. <br>
+Signed by: <br>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+ <!-- End Modals-->
+ 
+ 
+{% endblock content %}								
+				 
