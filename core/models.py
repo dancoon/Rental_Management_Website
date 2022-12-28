@@ -80,7 +80,7 @@ class Payment(models.Model):
     tenant = models.OneToOneField(User, on_delete=models.CASCADE)
     mode = models.CharField(max_length=50)
     amount = models.PositiveBigIntegerField()
-    balance = models.PositiveBigIntegerField()
+    balance = models.PositiveBigIntegerField(default=0)
     payment_for = models.CharField(max_length=250)
     date = models.DateField(auto_now_add=True)
     
