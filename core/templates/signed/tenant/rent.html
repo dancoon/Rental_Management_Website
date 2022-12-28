@@ -17,13 +17,14 @@
                     <div class="panel panel-default">
                         <div class="panel-heading">
                              Payment Receipt
+                            
                         </div>
                         <div class="panel-body">
                             <div class="table-responsive">
                                 <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                                     <thead>
                                         <tr>
-                                            <th>Tenant's name</th>
+                                            <th>Tenant's name </th>
                                             <th>Mode of Payment</th>
                                             <th>Amount Paid</th>
                                             <th>Payment for</th>
@@ -32,14 +33,16 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        {% for receipt in receipt%}
                                         <tr class="odd gradeX">
-                                            <td>Trident</td>
-                                            <td>Internet Explorer 4.0</td>
-                                            <td>Win 95+</td>
-                                            <td class="center">4</td>
-                                            <td class="center">X</td>
+                                            <td>{{receipt.tenant}}</td>
+                                            <td>{{receipt.mode}}</td>
+                                            <td>{{receipt.amount}}</td>
+                                            <td class="center">{{receipt.payment_for}}</td>
+                                            <td class="center">{{receipt.balance}}</td>
+                                            <td class="center">{{receipt.date}}</td>
                                         </tr>
-                                        
+                                        {% endfor %}
                                     </tbody>
                                 </table>
                             </div>

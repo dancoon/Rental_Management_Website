@@ -77,15 +77,13 @@ class Contact(models.Model):
     comment = models.TextField()
 
 class Payment(models.Model):
-    tenant = models.OneToOneField(Tenant, on_delete=models.CASCADE)
+    tenant = models.OneToOneField(User, on_delete=models.CASCADE)
     mode = models.CharField(max_length=50)
     amount = models.PositiveBigIntegerField()
     balance = models.PositiveBigIntegerField()
     payment_for = models.CharField(max_length=250)
     date = models.DateField(auto_now_add=True)
     
-    def __str__(self) -> str:
-        return self.tenant + " " + self.amount
 
 class Announcements(models.Model):
     sender = models.CharField(max_length=200, choices=SENDER)

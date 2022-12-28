@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .forms import ApplicationForm
-from .models import Contact, Tenant, Announcements, Applicant
+from .models import Contact, Tenant, Announcements, Applicant, Payment
 from django.contrib.auth.models import User, Group
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required,user_passes_test
@@ -163,10 +163,14 @@ def tenant_rent(request):
             if Announcements.objects.all().filter(to='all').count() > 0:
                 today = datetime.today()
                 message_notification = Announcements.objects.all().filter(date=today)
-
+            
+            receipt = None
+            if Payment.objects.all().filter(tenant_id=request.user.id):
+                receipt = Payment.objects.all().filter(tenant_id=request.user.id)
             context = {
                 'tenant_name': tenant[0].first_name,
                 'message_notification': message_notification,
+                'receipt': receipt
             }
         return render(request, 'signed/tenant/rent.html', context=context)
 
