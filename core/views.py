@@ -97,9 +97,19 @@ def display_tenant_account(request):
             if Announcements.objects.all().filter(to='all').count() > 0:
                 today = datetime.today()
                 mes = Announcements.objects.all().filter(date=today)
+
+            stay = None
+            receipt = None
+            if Payment.objects.all().filter(tenant_id=request.user.id):
+                receipt = Payment.objects.all().filter(tenant_id=request.user.id)
+
             context = {
                 'tenant_name': tenant[0].first_name,
                 'message_notification': mes,
+                'amount': receipt[0].amount,
+                'room_no': tenant[0].room,
+                'balance': receipt[0].balance,
+                'months_stayed': stay,
             }
             return render(request, 'signed/tenant/tenant.html', context=context)
         else:
