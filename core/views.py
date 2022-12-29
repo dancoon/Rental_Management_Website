@@ -37,6 +37,11 @@ def signin(request):
     else:
         return render(request, 'signin.html')
 
+def logout(request):
+    logout(request)
+    messages.info(request, "Log out success")
+    return redirect('/')
+
 #users sign up
 def signup(request):
     if request.method == 'POST':
