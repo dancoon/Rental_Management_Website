@@ -163,7 +163,6 @@ def tenant_info(request):
         }
         return render(request, 'signed/tenant/info.html', context)
 
-
 #to display payment receipts for tenants
 @login_required
 @user_passes_test(is_tenant)
@@ -187,7 +186,6 @@ def tenant_rent(request):
             'receipt': receipt,
         }
         return render(request, 'signed/tenant/rent.html', context=context)
-
 
 #tenant to confirm their payment for rent
 @login_required
