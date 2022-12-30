@@ -103,6 +103,7 @@ def display_tenant_account(request):
 
             amount = 0
             balance = 0
+            paymentfor = "N/A"
             if Payment.objects.all().filter(tenant_id=request.user.id):
                 receipt = Payment.objects.all().filter(tenant_id=request.user.id).last()
                 amount = receipt.amount
@@ -114,7 +115,7 @@ def display_tenant_account(request):
                 'amount': amount,
                 'room_no': tenant.room,
                 'balance': balance,
-                'months_stayed': paymentfor,
+                'payment_for': paymentfor,
             }
             return render(request, 'signed/tenant/tenant.html', context=context)
         else:
