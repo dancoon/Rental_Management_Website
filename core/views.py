@@ -118,7 +118,7 @@ def display_tenant_account(request):
             }
             return render(request, 'signed/tenant/tenant.html', context=context)
         else:
-            return HttpResponse("Wait for approval")
+            return render(request, 'signed/tenant/tenantwaitforapproval.html')
     else:
         return render(request, 'index.html')
 
