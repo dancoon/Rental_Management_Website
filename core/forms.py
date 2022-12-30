@@ -7,4 +7,3 @@ class ApplicationForm(forms.Form):
     email = forms.EmailField()
     phone = forms.CharField(max_length= 250)
     id_number = forms.CharField(max_length=50)
-
