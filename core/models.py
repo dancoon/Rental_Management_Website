@@ -95,6 +95,7 @@ class Contact(models.Model):
     email = models.EmailField(max_length=254)
     comment = models.TextField()
 
+#approved payments
 class Payment(models.Model):
     tenant = models.ForeignKey(User, on_delete=models.CASCADE)
     mode = models.CharField(max_length=50)
@@ -103,7 +104,7 @@ class Payment(models.Model):
     payment_for = models.CharField(max_length=250)
     date = models.DateField(auto_now_add=True)
 
-    def rent_to_be_paid(self, room_no):
+    def tenant_balance(self, room_no):
         room = Room.objects.all().filter(room=room_no).last()
         if room.type == 'bedsitter':
             rent = BEDSITTER_RENT
@@ -117,6 +118,12 @@ class Payment(models.Model):
             rent = -1
 
         return rent - self.amount
+
+    def set_balance(self, balance):
+        self.balance = balance
+
+    # def set_balance(self):
+        # self.balance = self.amount
     
 
 class Announcements(models.Model):
@@ -126,7 +133,20 @@ class Announcements(models.Model):
     date = models.DateField(auto_now_add=True)
     message = models.TextField()
     
+    #soon we'll upgrade so that admin can send to people specific
     @property
     def get_receiver(self):
         return self.to
-        
+
+#tenant statement of payment        
+class PaymentStatement(models.Model):
+    tenant_name = models.CharField(max_length=250)
+    mode = models.CharField(max_length=50)
+    amount = models.PositiveBigIntegerField()
+    payment_for = models.CharField(max_length=250)
+    date = models.DateField(auto_now_add=True)
+
+class TenantFeedback(models.Model):
+    tenant_name = models.CharField(max_length=250)
+    feedback = models.TextField()
+    

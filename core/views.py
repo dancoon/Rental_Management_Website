@@ -94,32 +94,30 @@ def is_owner(user):
 def display_tenant_account(request):
     if is_tenant(request.user):
         tenantapproval = Tenant.objects.all().filter(user_id=request.user.id, status=True)
-        if tenantapproval:
-            tenant = Tenant.objects.all().filter(status=True, user_id=request.user.id).first()
-            
-            mes = None
-            if Announcements.objects.all().filter(to='all').count() > 0:
-                mes = Announcements.objects.all().filter(date=datetime.today())
-
-            amount = 0
-            balance = 0
-            paymentfor = "N/A"
-            if Payment.objects.all().filter(tenant_id=request.user.id):
-                receipt = Payment.objects.all().filter(tenant_id=request.user.id).last()
-                amount = receipt.amount
-                balance = receipt.rent_to_be_paid(tenant.room)
-                paymentfor = receipt.payment_for
-            context = {
-                'tenant_name': tenant.first_name,
-                'message_notification': mes,
-                'amount': amount,
-                'room_no': tenant.room,
-                'balance': balance,
-                'payment_for': paymentfor,
-            }
-            return render(request, 'signed/tenant/tenant.html', context=context)
-        else:
+        if not tenantapproval:
             return render(request, 'signed/tenant/tenantwaitforapproval.html')
+        tenant = Tenant.objects.all().filter(status=True, user_id=request.user.id).first()
+
+        mes = None
+        if Announcements.objects.all().filter(to='all').count() > 0:
+            mes = Announcements.objects.all().filter(date=datetime.today())
+        amount = 0
+        balance = 0
+        paymentfor = "N/A"
+        if Payment.objects.all().filter(tenant_id=request.user.id):
+            receipt = Payment.objects.all().filter(tenant_id=request.user.id).last()
+            amount = receipt.amount
+            balance = receipt.tenant_balance(tenant.room)
+            paymentfor = receipt.payment_for
+        context = {
+            'tenant_name': tenant.first_name,
+            'message_notification': mes,
+            'amount': amount,
+            'room_no': tenant.room,
+            'balance': balance,
+            'payment_for': paymentfor,
+        }
+        return render(request, 'signed/tenant/tenant.html', context=context)
     else:
         return render(request, 'index.html')
 
@@ -130,17 +128,19 @@ def display_tenant_account(request):
 def tenant_comment(request):
     if is_tenant(request.user):
         tenantapproval = Tenant.objects.all().filter(user_id=request.user.id, status=True)
-        if tenantapproval:
-            tenant = Tenant.objects.all().filter(status=True, user_id=request.user.id)
-            message_notification = None
-            if Announcements.objects.all().filter(to='all').count() > 0:
-                today = datetime.today()
-                message_notification = Announcements.objects.all().filter(date=today)
-            
-            context = {
-                'tenant_name': tenant[0].first_name,
-                'message_notification': message_notification,
-            }
+        if not tenantapproval:
+            return render(request, 'index.html') 
+        
+        tenant = Tenant.objects.all().filter(status=True, user_id=request.user.id)
+        message_notification = None
+        if Announcements.objects.all().filter(to='all').count() > 0:
+            today = datetime.today()
+            message_notification = Announcements.objects.all().filter(date=today)
+        
+        context = {
+            'tenant_name': tenant[0].first_name,
+            'message_notification': message_notification,
+        }
         return render(request, 'signed/tenant/comments.html', context=context)
 
 
@@ -150,22 +150,22 @@ def tenant_comment(request):
 def tenant_info(request):
     if is_tenant(request.user):
         tenantapproval = Tenant.objects.all().filter(user_id=request.user.id, status=True)
-        if tenantapproval:
-            tenant = Tenant.objects.all().filter(status=True, user_id=request.user.id)
-            message_notification = None
-            message = None
-            if Announcements.objects.all().count() > 0:
-                message = Announcements.objects.all()
-                today = datetime.today()
-                message_notification = Announcements.objects.all().filter(date=today)
-
-            context = {
-                'tenant_name': tenant[0].first_name,
-                'message': message,
-                'message_notification': message_notification,
-            }
+        if not tenantapproval:
+            return render(request, 'index.html') 
+    
+        tenant = Tenant.objects.all().filter(status=True, user_id=request.user.id)
+        message_notification = None
+        message = None
+        if Announcements.objects.all().count() > 0:
+            message = Announcements.objects.all()
+            today = datetime.today()
+            message_notification = Announcements.objects.all().filter(date=today)
+        context = {
+            'tenant_name': tenant[0].first_name,
+            'message': message,
+            'message_notification': message_notification,
+        }
         return render(request, 'signed/tenant/info.html', context)
-
 
 #to display payment receipts for tenants
 @login_required
@@ -173,21 +173,24 @@ def tenant_info(request):
 def tenant_rent(request):
     if is_tenant(request.user):
         tenantapproval = Tenant.objects.all().filter(user_id=request.user.id, status=True)
-        if tenantapproval:
-            tenant = Tenant.objects.all().filter(status=True, user_id=request.user.id)
-            message_notification = None
-            if Announcements.objects.all().filter(to='all').count() > 0:
-                today = datetime.today()
-                message_notification = Announcements.objects.all().filter(date=today)
-            
-            receipt = None
-            if Payment.objects.all().filter(tenant_id=request.user.id):
-                receipt = Payment.objects.all().filter(tenant_id=request.user.id)
-            context = {
-                'tenant_name': tenant[0].first_name,
-                'message_notification': message_notification,
-                'receipt': receipt
-            }
+        if not tenantapproval:
+            return render(request, 'index.html') 
+    
+        tenant = Tenant.objects.all().filter(status=True, user_id=request.user.id).first()
+        message_notification = None
+        if Announcements.objects.all().filter(to='all').count() > 0:
+            today = datetime.today()
+            message_notification = Announcements.objects.all().filter(date=today)
+        
+        receipt = None
+        balance = 0
+        if Payment.objects.all().filter(tenant_id=request.user.id):
+            receipt = Payment.objects.all().filter(tenant_id=request.user.id)
+        context = {
+            'tenant_name': tenant.first_name,
+            'message_notification': message_notification,
+            'receipt': receipt,
+        }
         return render(request, 'signed/tenant/rent.html', context=context)
 
 
@@ -197,15 +200,17 @@ def tenant_rent(request):
 def tenant_payment(request):
     if is_tenant(request.user):
         tenantapproval = Tenant.objects.all().filter(user_id=request.user.id, status=True)
-        if tenantapproval:
-            tenant = Tenant.objects.all().filter(status=True, user_id=request.user.id)
-            message_notification = None
-            if Announcements.objects.all().filter(to='all').count() > 0:
-                today = datetime.today()
-                message_notification = Announcements.objects.all().filter(date=today)
-                
-            context = {
-                'tenant_name': tenant[0].first_name,
-                'message_notification': message_notification,
-            }
+        if not tenantapproval:
+            return render(request, 'index.html') 
+
+        tenant = Tenant.objects.all().filter(status=True, user_id=request.user.id)
+        message_notification = None
+        if Announcements.objects.all().filter(to='all').count() > 0:
+            today = datetime.today()
+            message_notification = Announcements.objects.all().filter(date=today)
+            
+        context = {
+            'tenant_name': tenant[0].first_name,
+            'message_notification': message_notification,
+        }
         return render(request, 'signed/tenant/payments.html', context=context)
