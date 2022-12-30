@@ -1,11 +1,10 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .forms import ApplicationForm
-from .models import Contact, Tenant, Announcements, Applicant, Payment
+from .models import Contact, Tenant, Announcements, Applicant, Payment, Room
 from django.contrib.auth.models import User, Group
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required,user_passes_test
-from django.template import loader
 from django.utils.timezone import datetime
 from django.contrib import messages
 
@@ -37,10 +36,10 @@ def signin(request):
     else:
         return render(request, 'signin.html')
 
-def logout(request):
-    logout(request)
-    messages.info(request, "Log out success")
-    return redirect('/')
+# def logout(request):
+#     logout(request)
+#     messages.info(request, "Log out success")
+#     return redirect('/')
 
 #users sign up
 def signup(request):
@@ -96,25 +95,26 @@ def display_tenant_account(request):
     if is_tenant(request.user):
         tenantapproval = Tenant.objects.all().filter(user_id=request.user.id, status=True)
         if tenantapproval:
-            tenant = Tenant.objects.all().filter(status=True, user_id=request.user.id)
+            tenant = Tenant.objects.all().filter(status=True, user_id=request.user.id).first()
             
             mes = None
             if Announcements.objects.all().filter(to='all').count() > 0:
-                today = datetime.today()
-                mes = Announcements.objects.all().filter(date=today)
+                mes = Announcements.objects.all().filter(date=datetime.today())
 
-            stay = None
-            receipt = None
+            amount = 0
+            balance = 0
             if Payment.objects.all().filter(tenant_id=request.user.id):
-                receipt = Payment.objects.all().filter(tenant_id=request.user.id)
-
+                receipt = Payment.objects.all().filter(tenant_id=request.user.id).last()
+                amount = receipt.amount
+                balance = receipt.rent_to_be_paid(tenant.room)
+                paymentfor = receipt.payment_for
             context = {
-                'tenant_name': tenant[0].first_name,
+                'tenant_name': tenant.first_name,
                 'message_notification': mes,
-                'amount': receipt[0].amount,
-                'room_no': tenant[0].room,
-                'balance': receipt[0].balance,
-                'months_stayed': stay,
+                'amount': amount,
+                'room_no': tenant.room,
+                'balance': balance,
+                'months_stayed': paymentfor,
             }
             return render(request, 'signed/tenant/tenant.html', context=context)
         else:
