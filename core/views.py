@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .forms import ApplicationForm
-from .models import Contact, Tenant, Announcements, Applicant, Payment, Room
+from .models import Contact, Tenant, Announcements, Applicant, Payment, Room, PaymentStatement, TenantFeedback
 from django.contrib.auth.models import User, Group
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required,user_passes_test
@@ -131,6 +131,13 @@ def tenant_comment(request):
         if not tenantapproval:
             return render(request, 'index.html') 
         
+        if request.method == 'POST':
+            tenant_name = request.POST['tenant_name']
+            feedback = request.POST['feedback']
+
+            fedmes = TenantFeedback(tenant_name=tenant_name, feedback=feedback)
+            fedmes.save()
+            
         tenant = Tenant.objects.all().filter(status=True, user_id=request.user.id)
         message_notification = None
         if Announcements.objects.all().filter(to='all').count() > 0:
@@ -202,6 +209,15 @@ def tenant_payment(request):
         tenantapproval = Tenant.objects.all().filter(user_id=request.user.id, status=True)
         if not tenantapproval:
             return render(request, 'index.html') 
+        
+        if request.method == 'POST':
+            tenant_name = request.POST['tenant_name']
+            mode_of_payment = request.POST['mode_of_payment']
+            amount = request.POST['amount']
+            payment_for = request.POST['payment_for']
+            
+            statement = PaymentStatement(tenant_name=tenant_name, mode_of_payment=mode_of_payment, amount=amount, payment_for=payment_for)
+            statement.save()
 
         tenant = Tenant.objects.all().filter(status=True, user_id=request.user.id)
         message_notification = None

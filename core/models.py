@@ -141,7 +141,7 @@ class Announcements(models.Model):
 #tenant statement of payment        
 class PaymentStatement(models.Model):
     tenant_name = models.CharField(max_length=250)
-    mode = models.CharField(max_length=50)
+    mode_of_payment = models.CharField(max_length=50)
     amount = models.PositiveBigIntegerField()
     payment_for = models.CharField(max_length=250)
     date = models.DateField(auto_now_add=True)
@@ -149,4 +149,4 @@ class PaymentStatement(models.Model):
 class TenantFeedback(models.Model):
     tenant_name = models.CharField(max_length=250)
     feedback = models.TextField()
-    
+    date = models.DateField(auto_now=True)

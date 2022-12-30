@@ -20,21 +20,22 @@
                         <div class="row">
                             <div class="col-lg-6">
                                 <form method="POST" action="" role="form">
+                                    {% csrf_token %}
                                     <div class="form-group">
                                         <label>Tenant's name</label>
-                                        <input class="form-control" placeholder="Enter your name">
+                                        <input class="form-control" placeholder="Enter your name" name="tenant_name">
                                     </div>
                                     <div class="form-group">
                                         <label>Mode of payment</label>
-                                        <input class="form-control" placeholder="Enter Mode of Payment">
+                                        <input class="form-control" placeholder="Enter Mode of Payment" name="mode_of_payment">
                                     </div>
                                     <div class="form-group">
                                         <label>Amount paid</label>
-                                        <input class="form-control" placeholder="Enter Amount">
+                                        <input class="form-control" placeholder="Enter Amount" name="amount">
                                     </div>
                                     <div class="form-group">
                                         <label>Payment for</label>
-                                        <input class="form-control" placeholder="Enter Month">
+                                        <input class="form-control" placeholder="Enter Month" name="payment_for">
                                     </div>
                                     <button type="submit" class="btn btn-default">Submit Button</button>
                                 </form>
