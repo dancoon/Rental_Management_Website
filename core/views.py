@@ -43,12 +43,19 @@ def signup(request):
         name = request.POST['name']
         email = request.POST['email']
         password = request.POST['pass']
+        role  = request.POST['role']
         user = User(username=name, email=email, password=password)
         user.set_password(password)
+        if role == 'tenant':
+            my_group = Group.objects.get(name='ADMIN')
+        elif role == 'owner':
+            my_group = Group.objects.get(name='OWNER')
+        else:
+            my_group = Group.objects.get(name='TENANT')
+
+        user.groups.add(my_group)
         user.save()
 
-        my_tenant_group = Group.objects.get(name='TENANT')
-        user.groups.add(my_tenant_group)
         messages.success(request, "Sign up complete")
         return redirect('/application/')
     else:        
@@ -69,7 +76,6 @@ def apply_tenancy(request):
 
             applicant = Applicant(first_name=first_name,last_name=last_name,gender=gender,email=e,phone=phone,id_number=id_number)        
             applicant.save()
-
             return redirect('/signin/')
     context = {
         'form': form,
@@ -203,3 +209,8 @@ def tenant_payment(request):
                 'message_notification': message_notification,
             }
         return render(request, 'signed/tenant/payments.html', context=context)
+
+####################################################################################################################
+### owner #####
+
+#dispaly admins acount dashboard
