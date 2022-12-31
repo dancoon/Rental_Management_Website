@@ -230,3 +230,7 @@ def tenant_payment(request):
             'message_notification': message_notification,
         }
         return render(request, 'signed/tenant/payments.html', context=context)
+
+########### admin (functionality of landlord and landlady) ##################
+def display_admin_account(request):
+    return render(request, 'signed/owner/owner.html')
