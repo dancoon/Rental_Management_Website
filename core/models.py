@@ -3,7 +3,6 @@ from django.contrib.auth.models import User, Group
 from django.utils.timezone import datetime
 from django.utils import timezone
 
-
 TYPE_CHOICE = (
     ('bedsitter', 'bedsitter'),
     ('single', 'single'),
