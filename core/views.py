@@ -50,7 +50,6 @@ def signup(request):
         user = User(username=name, email=email, password=password)
         user.set_password(password)
         user.save()
-
         my_tenant_group = Group.objects.get(name='TENANT')
         user.groups.add(my_tenant_group)
         messages.success(request, "Sign up complete")
@@ -70,10 +69,8 @@ def apply_tenancy(request):
             e = cd.get("email")
             phone = cd.get("phone")
             id_number = cd.get("id_number")
-
             applicant = Applicant(first_name=first_name,last_name=last_name,gender=gender,email=e,phone=phone,id_number=id_number)        
             applicant.save()
-
             return redirect('/signin/')
     context = {
         'form': form,
@@ -97,7 +94,6 @@ def display_tenant_account(request):
         if not tenantapproval:
             return render(request, 'signed/tenant/tenantwaitforapproval.html')
         tenant = Tenant.objects.all().filter(status=True, user_id=request.user.id).first()
-
         mes = None
         if Announcements.objects.all().filter(to='all').count() > 0:
             mes = Announcements.objects.all().filter(date=datetime.today())
@@ -121,7 +117,6 @@ def display_tenant_account(request):
     else:
         return render(request, 'index.html')
 
-
 #tenant to post comments and complains
 @login_required
 @user_passes_test(is_tenant)
@@ -129,27 +124,22 @@ def tenant_comment(request):
     if is_tenant(request.user):
         tenantapproval = Tenant.objects.all().filter(user_id=request.user.id, status=True)
         if not tenantapproval:
-            return render(request, 'index.html') 
-        
+            return render(request, 'index.html')         
         if request.method == 'POST':
             tenant_name = request.POST['tenant_name']
             feedback = request.POST['feedback']
-
             fedmes = TenantFeedback(tenant_name=tenant_name, feedback=feedback)
             fedmes.save()
-            
         tenant = Tenant.objects.all().filter(status=True, user_id=request.user.id)
         message_notification = None
         if Announcements.objects.all().filter(to='all').count() > 0:
             today = datetime.today()
             message_notification = Announcements.objects.all().filter(date=today)
-        
         context = {
             'tenant_name': tenant[0].first_name,
             'message_notification': message_notification,
         }
         return render(request, 'signed/tenant/comments.html', context=context)
-
 
 #to display announcements and other info to tenants
 @login_required
@@ -158,8 +148,7 @@ def tenant_info(request):
     if is_tenant(request.user):
         tenantapproval = Tenant.objects.all().filter(user_id=request.user.id, status=True)
         if not tenantapproval:
-            return render(request, 'index.html') 
-    
+            return render(request, 'index.html')     
         tenant = Tenant.objects.all().filter(status=True, user_id=request.user.id)
         message_notification = None
         message = None
@@ -174,6 +163,7 @@ def tenant_info(request):
         }
         return render(request, 'signed/tenant/info.html', context)
 
+
 #to display payment receipts for tenants
 @login_required
 @user_passes_test(is_tenant)
@@ -182,13 +172,11 @@ def tenant_rent(request):
         tenantapproval = Tenant.objects.all().filter(user_id=request.user.id, status=True)
         if not tenantapproval:
             return render(request, 'index.html') 
-    
         tenant = Tenant.objects.all().filter(status=True, user_id=request.user.id).first()
         message_notification = None
         if Announcements.objects.all().filter(to='all').count() > 0:
             today = datetime.today()
             message_notification = Announcements.objects.all().filter(date=today)
-        
         receipt = None
         balance = 0
         if Payment.objects.all().filter(tenant_id=request.user.id):
@@ -208,23 +196,19 @@ def tenant_payment(request):
     if is_tenant(request.user):
         tenantapproval = Tenant.objects.all().filter(user_id=request.user.id, status=True)
         if not tenantapproval:
-            return render(request, 'index.html') 
-        
+            return render(request, 'index.html')         
         if request.method == 'POST':
             tenant_name = request.POST['tenant_name']
             mode_of_payment = request.POST['mode_of_payment']
             amount = request.POST['amount']
             payment_for = request.POST['payment_for']
-            
             statement = PaymentStatement(tenant_name=tenant_name, mode_of_payment=mode_of_payment, amount=amount, payment_for=payment_for)
             statement.save()
-
         tenant = Tenant.objects.all().filter(status=True, user_id=request.user.id)
         message_notification = None
         if Announcements.objects.all().filter(to='all').count() > 0:
             today = datetime.today()
             message_notification = Announcements.objects.all().filter(date=today)
-            
         context = {
             'tenant_name': tenant[0].first_name,
             'message_notification': message_notification,
