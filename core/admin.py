@@ -2,6 +2,10 @@ from django.contrib import admin
 from .models import Tenant, Contact, Owner, Announcements, Applicant, Room, Payment, TenantFeedback, PaymentStatement
 
 # Register your models here.
+@admin.register(Contact)
+class ContactAdmin(admin.ModelAdmin):
+    list_display = ['name', 'email', 'comment']
+
 @admin.register(Tenant)
 class TenantAdmin(admin.ModelAdmin):
     list_display = ['first_name', 'last_name', 'phone', 'email']
