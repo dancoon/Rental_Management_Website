@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User, Group
 from django.utils.timezone import datetime
+from django.utils import timezone
 
 
 TYPE_CHOICE = (
@@ -103,6 +104,10 @@ class Payment(models.Model):
     balance = models.PositiveBigIntegerField(default=0)
     payment_for = models.CharField(max_length=250)
     date = models.DateField(auto_now_add=True)
+
+    @property
+    def month_paid(self):
+        return self.date.month - timezone.now().month
 
     def tenant_balance(self, room_no):
         room = Room.objects.all().filter(room=room_no).last()

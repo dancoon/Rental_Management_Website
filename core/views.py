@@ -6,6 +6,7 @@ from django.contrib.auth.models import User, Group
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required,user_passes_test
 from django.utils.timezone import datetime
+from django.utils import timezone
 from django.contrib import messages
 
 # Create your views here.
@@ -233,4 +234,16 @@ def tenant_payment(request):
 
 ########### admin (functionality of landlord and landlady) ##################
 def display_admin_account(request):
-    return render(request, 'signed/owner/owner.html')
+    applicants = Applicant.objects.all().count()
+    month = datetime.now().strftime("%B")
+    payments = 1
+    comments = 1
+    rooms = 2
+    context = {
+        'applicants': applicants,
+        'payments': payments,
+        'month': month,
+        'comments': comments,
+        'rooms': rooms,
+    }
+    return render(request, 'signed/owner/owner.html', context=context)
