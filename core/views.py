@@ -218,3 +218,6 @@ def display_admin_account(request):
         'rooms': rooms,
     }
     return render(request, 'signed/owner/owner.html', context=context)
+
+def owner_tenants_info(request):
+    return render(request, 'signed/owner/tenantsinfo.html')
