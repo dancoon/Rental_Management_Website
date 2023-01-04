@@ -1,10 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User, Group
 from django.utils.timezone import datetime
-<<<<<<< HEAD
 from django.utils import timezone
-=======
->>>>>>> e0ddaf317d111124061fc9436634650a1015aa59
 
 
 TYPE_CHOICE = (
@@ -48,10 +45,6 @@ class Room(models.Model):
     def __str__(self):
         return self.room
     
-<<<<<<< HEAD
-
-=======
->>>>>>> e0ddaf317d111124061fc9436634650a1015aa59
 class Tenant(models.Model):
     user=models.OneToOneField(User,on_delete=models.CASCADE)
     gender = models.CharField(max_length=200, choices=GENDER, default='I prefer not to say')
@@ -81,10 +74,6 @@ class Tenant(models.Model):
         end = datetime.today()
         months = (end.year - start.year) * 12 + (end.month - start.month)
         return months
-<<<<<<< HEAD
-
-=======
->>>>>>> e0ddaf317d111124061fc9436634650a1015aa59
 
 class Applicant(models.Model):
     first_name = models.CharField(max_length=50)
