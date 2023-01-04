@@ -227,3 +227,10 @@ def owner_tenants_info(request):
      'tenant': tenant,
     }
     return render(request, 'signed/owner/tenantsinfo.html', context=context)
+
+def owner_rooms_info(request):
+    vacant = Room.objects.all()
+    context = {
+     'vacant': vacant,
+    }
+    return render(request, 'signed/owner/roomsinfo.html', context=context)
