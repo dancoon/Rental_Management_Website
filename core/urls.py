@@ -15,4 +15,5 @@ urlpatterns = [
     path('tenant/payment/', views.tenant_payment, name='tenant_payment'),
     #owner
     path('owner/', views.display_admin_account, name='display_admin_account'),
+    path('owner/tenantsinfo/', views.owner_tenants_info, name='owner_tenants_info'),
 ]
