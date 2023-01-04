@@ -1,7 +1,10 @@
 from django.db import models
 from django.contrib.auth.models import User, Group
 from django.utils.timezone import datetime
+<<<<<<< HEAD
 from django.utils import timezone
+=======
+>>>>>>> e0ddaf317d111124061fc9436634650a1015aa59
 
 
 TYPE_CHOICE = (
@@ -45,7 +48,10 @@ class Room(models.Model):
     def __str__(self):
         return self.room
     
+<<<<<<< HEAD
 
+=======
+>>>>>>> e0ddaf317d111124061fc9436634650a1015aa59
 class Tenant(models.Model):
     user=models.OneToOneField(User,on_delete=models.CASCADE)
     gender = models.CharField(max_length=200, choices=GENDER, default='I prefer not to say')
@@ -75,7 +81,10 @@ class Tenant(models.Model):
         end = datetime.today()
         months = (end.year - start.year) * 12 + (end.month - start.month)
         return months
+<<<<<<< HEAD
 
+=======
+>>>>>>> e0ddaf317d111124061fc9436634650a1015aa59
 
 class Applicant(models.Model):
     first_name = models.CharField(max_length=50)
@@ -104,7 +113,7 @@ class Payment(models.Model):
     balance = models.PositiveBigIntegerField(default=0)
     payment_for = models.CharField(max_length=250)
     date = models.DateField(auto_now_add=True)
-
+    
     @property
     def month_paid(self):
         return self.date.month - timezone.now().month
@@ -130,7 +139,27 @@ class Payment(models.Model):
     # def set_balance(self):
         # self.balance = self.amount
     
+    def tenant_balance(self, room_no):
+        room = Room.objects.all().filter(room=room_no).last()
+        if room.type == 'bedsitter':
+            rent = BEDSITTER_RENT
+        elif room.type == 'single':
+            rent = SINGLES_RENT
+        elif room.type == '1 bedroom':
+            rent = ONEBEDROOM_RENT
+        elif room.type == '2 bedroom':
+            rent = TWOBEDROOM_RENT
+        else:
+            rent = -1
 
+        return rent - self.amount
+
+    def set_balance(self, balance):
+        self.balance = balance
+
+    # def set_balance(self):
+        # self.balance = self.amount
+    
 class Announcements(models.Model):
     sender = models.CharField(max_length=200, choices=SENDER)
     type = models.CharField(max_length=200, choices=MESS)
