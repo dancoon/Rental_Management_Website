@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, reverse
 from django.http import HttpResponse
 from .forms import ApplicationForm
 from .models import Contact, Tenant, Announcements, Applicant, Payment, Room, PaymentStatement, TenantFeedback
@@ -98,7 +98,7 @@ def display_tenant_account(request):
     if is_tenant(request.user):
         tenantapproval = Tenant.objects.all().filter(user_id=request.user.id, status=True)
         if tenantapproval:
-            tenant = Tenant.objects.all().filter(status=True, user_id=request.user.id)
+            tenant = Tenant.objects.all().filter(status=True, user_id=request.user.id).first()
             
             mes = None
             if Announcements.objects.all().filter(to='all').count() > 0:
@@ -106,16 +106,19 @@ def display_tenant_account(request):
                 mes = Announcements.objects.all().filter(date=today)
 
             stay = None
-            receipt = None
+            amount = 0
+            balance = 0
             if Payment.objects.all().filter(tenant_id=request.user.id):
-                receipt = Payment.objects.all().filter(tenant_id=request.user.id)
+                receipt = Payment.objects.all().filter(tenant_id=request.user.id).first()
+                amount = receipt.amount
+                balance = receipt.balance
 
             context = {
-                'tenant_name': tenant[0].first_name,
+                'tenant_name': tenant.first_name,
                 'message_notification': mes,
-                'amount': receipt[0].amount,
-                'room_no': tenant[0].room,
-                'balance': receipt[0].balance,
+                'amount': amount,
+                'room_no': tenant.room,
+                'balance': balance,
                 'months_stayed': stay,
             }
             return render(request, 'signed/tenant/tenant.html', context=context)
@@ -245,6 +248,9 @@ def enroll_tenants(request, pk):
     app = Applicant.objects.get(id=pk)
     applicants = Applicant.objects.all()
     room = Room.objects.filter(occupied=False).first().id
+    house = Room.objects.get(id=room)
+    house.occupied = True
+    house.save()
     user = User.objects.get(username=app.first_name)
     new = Tenant()
     new.user = user
@@ -257,11 +263,11 @@ def enroll_tenants(request, pk):
     new.status = True
     new.room_id = room
     new.save()
-
+    app.delete()
     context = {
         'applicants': applicants,
     }
-    return render(request, 'signed/owner/enroll.html', context=context)
+    return redirect(reverse('enroll_tenants_view'))         
 
 def enroll_tenants_view(request):
     applicants = Applicant.objects.all()
