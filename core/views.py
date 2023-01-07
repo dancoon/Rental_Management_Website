@@ -17,7 +17,7 @@ def index(request):
         comment = request.POST['comment']
         obj = Contact(name=name, email=email, comment=comment)
         obj.save()
-        return HttpResponse("Data saved")
+        return redirect(reverse('index'))
     else:
         return render(request, 'index.html')
 
@@ -275,3 +275,19 @@ def enroll_tenants_view(request):
         'applicants': applicants,
     }
     return render(request, 'signed/owner/enroll.html', context=context)
+
+def view_tenants_pay(request):
+    pay_statement = PaymentStatement.objects.all()
+    confirmed_pay = Payment.objects.all()
+    context = {
+        'payment_statement': pay_statement,
+        'confirmed_pay': confirmed_pay,
+    }
+    return render(request, 'signed/owner/rents.html', context=context)
+
+def view_comments(request):
+    contact = Contact.objects.all()
+    context = {
+        'comment': contact,
+    }
+    return render(request, 'signed/owner/comments.html', context)
