@@ -54,7 +54,7 @@ class Tenant(models.Model):
     id_number = models.CharField(max_length=50)
     joined_date = models.DateField(auto_now_add=True)
     status = models.BooleanField(default=False)
-    room = models.OneToOneField(Room,on_delete=models.CASCADE, primary_key=True)
+    room = models.ForeignKey(Room,on_delete=models.CASCADE)
 
     def __str__(self):
         return self.user.first_name

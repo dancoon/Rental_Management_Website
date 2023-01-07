@@ -86,6 +86,11 @@ def is_tenant(user):
 def is_owner(user):
     return user.groups.filter(name='OWNER').exists()
 
+def vacant_room():
+    room = Room.objects.all().filter(occupied=False)
+    return room
+
+
 #tenants behaviour
 @login_required
 @user_passes_test(is_tenant)
@@ -203,6 +208,7 @@ def tenant_payment(request):
             }
         return render(request, 'signed/tenant/payments.html', context=context)
 
+
 ########### admin (functionality of landlord and landlady) ##################
 def display_admin_account(request):
     applicants = Applicant.objects.all().count()
@@ -234,3 +240,32 @@ def owner_rooms_info(request):
      'vacant': vacant,
     }
     return render(request, 'signed/owner/roomsinfo.html', context=context)
+
+def enroll_tenants(request, pk):
+    app = Applicant.objects.get(id=pk)
+    applicants = Applicant.objects.all()
+    room = Room.objects.filter(occupied=False).first().id
+    user = User.objects.get(username=app.first_name)
+    new = Tenant()
+    new.user = user
+    new.first_name = app.first_name
+    new.last_name = app.last_name
+    new.gender = 'male'
+    new.phone = app.phone
+    new.email = app.email
+    new.id_number = app.id_number
+    new.status = True
+    new.room_id = room
+    new.save()
+
+    context = {
+        'applicants': applicants,
+    }
+    return render(request, 'signed/owner/enroll.html', context=context)
+
+def enroll_tenants_view(request):
+    applicants = Applicant.objects.all()
+    context = {
+        'applicants': applicants,
+    }
+    return render(request, 'signed/owner/enroll.html', context=context)
