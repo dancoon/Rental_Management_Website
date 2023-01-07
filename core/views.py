@@ -284,3 +284,10 @@ def view_tenants_pay(request):
         'confirmed_pay': confirmed_pay,
     }
     return render(request, 'signed/owner/rents.html', context=context)
+
+def view_comments(request):
+    contact = Contact.objects.all()
+    context = {
+        'comment': contact,
+    }
+    return render(request, 'signed/owner/comments.html', context)
