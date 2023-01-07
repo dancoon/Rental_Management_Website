@@ -1,0 +1,73 @@
+{% extends 'signed/owner/base.html' %}
+{% block content %}
+
+<div id="page-wrapper">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg">
+                <h2> Payment Statements</h2>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>First Name</th>
+                                <th>Mode Of Payment</th>
+                                <th>Amount</th>
+                                <th>Payment For</th>
+                                <th>Date</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for payment_statement in payment_statement %}
+                            <tr>
+                                <td>{{payment_statement.tenant_name}}</td>
+                                <td>{{payment_statement.mode_of_payment}}</td>
+                                <td>{{payment_statement.amount}}</td>
+                                <td>{{payment_statement.payment_for}}</td>
+                                <td>{{payment_statement.date}}</td>
+                                <td><a class="btn btn-success btn-xs" href=""><span class="glyphicon glyphicon-ok"></span></a>
+                                    <a class="btn btn-danger btn-xs" href=""><span class="glyphicon glyphicon-trash"></span></a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg">
+                <h2> Payment Confirmed</h2>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>Tenant</th>
+                                <th>Mode of Payment</th>
+                                <th>Amount</th>
+                                <th>Balance</th>
+                                <th>Payment For</th>
+                                <th>Date paid</th>
+                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for confirmed_pay in confirmed_pay %}
+                            <tr>
+                                <td>{{confirmed_pay.tenant}}</td>
+                                <td>{{confirmed_pay.mode}}</td>
+                                <td>{{confirmed_pay.amount}}</td>
+                                <td>{{confirmed_pay.balance}}</td>
+                                <td>{{confirmed_pay.payment_for}}</td>
+                                <td>{{confirmed_pay.date}}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

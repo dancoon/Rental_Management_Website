@@ -31,7 +31,7 @@
                     <div class="panel-heading">
                         <div class="row">
                             <div class="col-xs-3">
-                                <i class="fa fa-comments fa-5x"></i>
+                                <i class="fa  fa-users fa-5x"></i>
                             </div>
                             <div class="col-xs-9 text-right">
                                 <div class="huge">{{applicants}}</div>
@@ -39,9 +39,9 @@
                             </div>
                         </div>
                     </div>
-                    <a href="#">
+                    <a href="{% url 'enroll_tenants_view' %}">
                         <div class="panel-footer">
-                            <span class="pull-left">View Details</span>
+                            <span class="pull-left">View Applicants</span>
                             <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
                             <div class="clearfix"></div>
                         </div>
@@ -53,17 +53,17 @@
                     <div class="panel-heading">
                         <div class="row">
                             <div class="col-xs-3">
-                                <i class="fa fa-tasks fa-5x"></i>
+                                <i class="fa fa-money fa-5x"></i>
                             </div>
                             <div class="col-xs-9 text-right">
                                 <div class="huge">{{payments}}</div>
-                                <div>{{month}} Payments</div>
+                                <div>{{month}}</div>
                             </div>
                         </div>
                     </div>
-                    <a href="#">
+                    <a href="{% url 'view_tenants_pay' %}">
                         <div class="panel-footer">
-                            <span class="pull-left">View Details</span>
+                            <span class="pull-left">View Tenant's Payments</span>
                             <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
                             <div class="clearfix"></div>
                         </div>
@@ -75,7 +75,7 @@
                     <div class="panel-heading">
                         <div class="row">
                             <div class="col-xs-3">
-                                <i class="fa fa-shopping-cart fa-5x"></i>
+                                <i class="fa fa-comments fa-5x"></i>
                             </div>
                             <div class="col-xs-9 text-right">
                                 <div class="huge">{{comments}}</div>
@@ -97,7 +97,7 @@
                     <div class="panel-heading">
                         <div class="row">
                             <div class="col-xs-3">
-                                <i class="fa fa-support fa-5x"></i>
+                                <i class="fa fa-building fa-5x"></i>
                             </div>
                             <div class="col-xs-9 text-right">
                                 <div class="huge">{{rooms}}</div>
@@ -105,9 +105,9 @@
                             </div>
                         </div>
                     </div>
-                    <a href="#">
+                    <a href="{% url 'owner_rooms_info' %}">
                         <div class="panel-footer">
-                            <span class="pull-left">View Details</span>
+                            <span class="pull-left">View Rooms</span>
                             <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
                             <div class="clearfix"></div>
                         </div>
