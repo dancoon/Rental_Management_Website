@@ -217,8 +217,8 @@ def display_admin_account(request):
     applicants = Applicant.objects.all().count()
     month = datetime.now().strftime("%B")
     payments = 1
-    comments = 1
-    rooms = 2
+    comments = Contact.objects.all().count()
+    rooms = Room.objects.filter(occupied=True).count()
     context = {
         'applicants': applicants,
         'payments': payments,
@@ -247,7 +247,9 @@ def owner_rooms_info(request):
 def enroll_tenants(request, pk):
     app = Applicant.objects.get(id=pk)
     applicants = Applicant.objects.all()
-    room = Room.objects.filter(occupied=False).first().id
+    rm = app.room_type
+    print(rm)
+    room = Room.objects.filter(occupied=False, type='bedsitter').first().id
     house = Room.objects.get(id=room)
     house.occupied = True
     house.save()
