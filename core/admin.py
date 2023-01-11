@@ -21,7 +21,7 @@ class AnnouncementsAdmin(admin.ModelAdmin):
 
 @admin.register(Applicant)
 class ApplicantAdmin(admin.ModelAdmin):
-    list_display = ['first_name', 'last_name', 'phone']
+    list_display = ['first_name', 'last_name', 'phone', 'room_type']
 
 @admin.register(Room)
 class RoomAdmin(admin.ModelAdmin):

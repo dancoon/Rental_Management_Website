@@ -70,7 +70,8 @@ def apply_tenancy(request):
             e = cd.get("email")
             phone = cd.get("phone")
             id_number = cd.get("id_number")
-            applicant = Applicant(first_name=first_name,last_name=last_name,gender=gender,email=e,phone=phone,id_number=id_number)        
+            room_type = cd.get("room_type")
+            applicant = Applicant(first_name=first_name,last_name=last_name,gender=gender,email=e,phone=phone,id_number=id_number,room_type=room_type)        
             applicant.save()
             return redirect('/signin/')
     context = {
@@ -248,8 +249,9 @@ def enroll_tenants(request, pk):
     app = Applicant.objects.get(id=pk)
     applicants = Applicant.objects.all()
     rm = app.room_type
-    print(rm)
-    room = Room.objects.filter(occupied=False, type='bedsitter').first().id
+    print(rm) 
+    rm = Room.objects.filter(occupied=False, type='bedsitter').first()
+    room = rm.id
     house = Room.objects.get(id=room)
     house.occupied = True
     house.save()
