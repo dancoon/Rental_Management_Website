@@ -43,7 +43,7 @@ class Room(models.Model):
 
     def __str__(self):
         return self.room
-    
+'''   
 class Tenant(models.Model):
     user=models.OneToOneField(User,on_delete=models.CASCADE)
     gender = models.CharField(max_length=200, choices=GENDER, default='I prefer not to say')
@@ -73,6 +73,7 @@ class Tenant(models.Model):
         end = datetime.today()
         months = (end.year - start.year) * 12 + (end.month - start.month)
         return months
+'''
 
 class Applicant(models.Model):
     first_name = models.CharField(max_length=50)

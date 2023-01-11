@@ -1,0 +1,73 @@
+{% extends 'signed/owner/base.html' %}
+{% block content %}
+<div id="page-wrapper">
+    <div class="container-fluid">
+        <!-- Page Heading -->
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">
+                    Room's info
+                </h1>
+                <ol class="breadcrumb">
+                    <li>
+                        <i class="fa fa-dashboard"></i>  <a href="index.html">Dashboard</a>
+                    </li>
+                    <li class="active">
+                        <i class="fa fa-table"></i> Tables
+                    </li>
+                </ol>
+            </div>
+        </div>
+        <!-- /.row -->
+        <div class="row">
+            <div class="col-lg-6">
+                <h2>Vacant Rooms Table</h2>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>Room</th>
+                                <th>Type</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for vacant in vacant %}
+                            {% if vacant.occupied == False%}
+                            <tr>
+                                <td>{{vacant.room}}</td>
+                                <td>{{vacant.type}}</td>
+                            </tr>
+                            {% endif %}
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <h2>All Rooms Table</h2>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>Room</th>
+                                <th>Type</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for vacant in vacant %}
+                            <tr>
+                                <td>{{vacant.room}}</td>
+                                <td>{{vacant.type}}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+</div>
+<!-- /#page-wrapper -->
+{% endblock content %}

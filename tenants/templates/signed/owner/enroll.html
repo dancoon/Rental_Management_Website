@@ -1,0 +1,44 @@
+{% extends 'signed/owner/base.html' %}
+{% block content %}
+
+<div id="page-wrapper">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-8">
+                <h2>Applicants Table</h2>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>ID No</th>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>Gender</th>
+                                <th>Phone No</th>
+                                <th>Email</th>
+                                <th>Enroll</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for applicant in applicants %}
+                            <tr>
+                                <td>{{applicant.id_number}}</td>
+                                <td>{{applicant.first_name}}</td>
+                                <td>{{applicant.last_name}}</td>
+                                <td>{{applicant.gender}}</td>
+                                <td>{{applicant.phone}}</td>
+                                <td>{{applicant.email}}</td>
+                                <td><a class="btn btn-success btn-xs" href="{% url 'enroll_tenants' applicant.id %}"><span class="glyphicon glyphicon-ok"></span></a>
+                                    <a class="btn btn-danger btn-xs" href=""><span class="glyphicon glyphicon-trash"></span></a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, reverse
 from django.http import HttpResponse
 from .forms import ApplicationForm
-from .models import Contact, Tenant, Announcements, Applicant, Payment, Room, PaymentStatement, TenantFeedback
+from .models import Contact, Announcements, Applicant, Payment, Room, PaymentStatement, TenantFeedback
 from django.contrib.auth.models import User, Group
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required,user_passes_test
@@ -127,11 +127,11 @@ def display_tenant_account(request):
             return HttpResponse("Wait for approval")
     else:
         return render(request, 'index.html')
-
+'''
 #tenant to post comments and complains
 @login_required
 @user_passes_test(is_tenant)
-def tenant_comment(request):
+def  (request):
     if is_tenant(request.user):
         tenantapproval = Tenant.objects.all().filter(user_id=request.user.id, status=True)
         if tenantapproval:
@@ -180,7 +180,7 @@ def tenant_rent(request):
             message_notification = None
             if Announcements.objects.all().filter(to='all').count() > 0:
                 today = datetime.today()
-                message_notification = Announcements.objects.all().filter(date=today)
+                message_notification = Announcements.objects.filter(date=today)
             
             receipt = None
             if Payment.objects.all().filter(tenant_id=request.user.id):
@@ -202,16 +202,16 @@ def tenant_payment(request):
         if tenantapproval:
             tenant = Tenant.objects.all().filter(status=True, user_id=request.user.id)
             message_notification = None
-            if Announcements.objects.all().filter(to='all').count() > 0:
+            if Announcements.objects.filter(to='all'):
                 today = datetime.today()
-                message_notification = Announcements.objects.all().filter(date=today)
+                message_notification = Announcements.objects.filter(date=today)
                 
             context = {
                 'tenant_name': tenant[0].first_name,
                 'message_notification': message_notification,
             }
         return render(request, 'signed/tenant/payments.html', context=context)
-
+'''
 
 ########### admin (functionality of landlord and landlady) ##################
 def display_admin_account(request):
