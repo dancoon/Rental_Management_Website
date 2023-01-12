@@ -56,7 +56,10 @@ class Tenant(models.Model):
     @property
     def get_room(self):
         return self.room
-
+    @property
+    def get_email(self):
+        return self.user.email
+    @property
     def months_stayed(self):
         start = self.joined_date
         end = datetime.today()
