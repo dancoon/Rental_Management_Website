@@ -62,3 +62,15 @@ class Tenant(models.Model):
         end = datetime.today()
         months = (end.year - start.year) * 12 + (end.month - start.month)
         return months
+
+class PaymentStatement(models.Model):
+    tenant_name = models.CharField(max_length=250)
+    mode_of_payment = models.CharField(max_length=50)
+    amount = models.PositiveBigIntegerField()
+    payment_for = models.CharField(max_length=250)
+    date = models.DateField(auto_now_add=True)
+
+class TenantFeedback(models.Model):
+    tenant_name = models.CharField(max_length=250)
+    feedback = models.TextField()
+    date = models.DateField(auto_now=True)

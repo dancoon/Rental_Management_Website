@@ -118,16 +118,3 @@ class Announcements(models.Model):
     @property
     def get_receiver(self):
         return self.to
-
-#tenant statement of payment        
-class PaymentStatement(models.Model):
-    tenant_name = models.CharField(max_length=250)
-    mode_of_payment = models.CharField(max_length=50)
-    amount = models.PositiveBigIntegerField()
-    payment_for = models.CharField(max_length=250)
-    date = models.DateField(auto_now_add=True)
-
-class TenantFeedback(models.Model):
-    tenant_name = models.CharField(max_length=250)
-    feedback = models.TextField()
-    date = models.DateField(auto_now=True)

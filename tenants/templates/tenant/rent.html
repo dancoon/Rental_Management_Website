@@ -20,6 +20,7 @@
                             
                         </div>
                         <div class="panel-body">
+                            {% if receipt %}
                             <div class="table-responsive">
                                 <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                                     <thead>
@@ -46,7 +47,21 @@
                                     </tbody>
                                 </table>
                             </div>
-                            
+                            {% else %}
+                            <div class="alert alert-success">
+                                <ul>
+                                    <li>
+                                        <div>
+                                            <strong>United Plaza</strong>
+                                            <span class="pull-right text-muted">
+                                                <em>now</em>
+                                            </span>
+                                        </div>
+                                        <div> You have no payments currently</div>
+                                    </li>
+                                </ul>
+                            </div>
+                            {% endif %}
                         </div>
                     </div>
                     <!--End Advanced Tables -->

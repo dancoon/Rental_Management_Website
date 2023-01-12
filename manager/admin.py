@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Contact, Owner, Announcements, Room, Payment, TenantFeedback, PaymentStatement
+from .models import Contact, Owner, Announcements, Room, Payment
 
 # Register your models here.
 @admin.register(Contact)
@@ -21,12 +21,3 @@ class RoomAdmin(admin.ModelAdmin):
 @admin.register(Payment)
 class PaymentAdmin(admin.ModelAdmin):
     list_display = ['tenant', 'amount', 'date', 'payment_for']
-
-@admin.register(PaymentStatement)
-class PaymentStatementAdmin(admin.ModelAdmin):
-    list_display = ['tenant_name', 'amount', 'date', 'payment_for']
-
-@admin.register(TenantFeedback)
-class TenantFeedbackAdmin(admin.ModelAdmin):
-    list_display = ['tenant_name', 'feedback']
-    
