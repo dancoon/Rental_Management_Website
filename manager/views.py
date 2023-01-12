@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, reverse
-from django.http import HttpResponse
-from .forms import ApplicationForm
-from .models import Contact, Announcements, Applicant, Payment, Room, PaymentStatement, TenantFeedback
+from .models import Contact, Announcements, Payment, Room, PaymentStatement, TenantFeedback
+from core.models import Applicant
+from tenants.models import Tenant
 from tenants.views import is_tenant
 from django.contrib.auth.models import User, Group
 from django.contrib.auth import authenticate, login
