@@ -8,32 +8,7 @@ TYPE_CHOICE = (
     ('single', 'single'),
     ('1 bedroom', '1 bedroom'),
     ('2 bedroom', '2 bedroom'),
-    )
-
-GENDER = (
-    ('male', 'male'),
-    ('female', 'female'),
-    ('I prefer not to say', 'I prefer not to say'),
 )
-
-SENDER = (
-    ('landlord', 'landlord'),
-    ('landlady', 'landlady'),
-    ('caretaker', 'caretaker'),
-)
-
-MESS = (
-    ('alert-success', 'alert-success'),
-    ('alert-info', 'alert-info'),
-    ('alert-warning', 'alert-warning'),
-    ('alert-danger', 'alert-danger'),
-)
-
-SINGLES_RENT = 3500
-BEDSITTER_RENT = 6500
-ONEBEDROOM_RENT = 8500
-TWOBEDROOM_RENT = 12500
-
 
 # Create your models here.
 class Applicant(models.Model):

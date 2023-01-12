@@ -1,14 +1,9 @@
 from django.shortcuts import render, redirect, reverse
-from django.http import HttpResponse
 from .forms import ApplicationForm
-from manager.models import Contact, Announcements, Payment, Room, PaymentStatement, TenantFeedback
+from manager.models import Contact, Room
 from .models import Applicant
-from tenants.views import is_tenant
 from django.contrib.auth.models import User, Group
 from django.contrib.auth import authenticate, login
-from django.contrib.auth.decorators import login_required,user_passes_test
-from django.utils.timezone import datetime
-from django.utils import timezone
 from django.contrib import messages
 
 # Create your views here.
@@ -32,7 +27,6 @@ def signin(request):
         user = authenticate(request, username=name, email=email, password=password)
         if user:
             login(request, user)    
-            messages.success(request, "Log in success")
             return redirect('/tenant/')
         else:
             return redirect('/')
@@ -76,7 +70,7 @@ def apply_tenancy(request):
             return redirect('/signin/')
     context = {
         'form': form,
-            }
+    }
     return render(request, 'application.html', context)
     
 #check role of the user
