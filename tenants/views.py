@@ -63,7 +63,7 @@ def tenant_comment(request):
                 message_notification = Announcements.objects.filter(date=today)
             
             context = {
-                'tenant_name': tenant[0].first_name,
+                'tenant_name': tenant[0].get_name,
                 'message_notification': message_notification,
             }
         return render(request, 'tenant/comments.html', context=context)
@@ -84,7 +84,7 @@ def tenant_info(request):
                 message_notification = Announcements.objects.filter(date=today)
 
             context = {
-                'tenant_name': tenant[0].first_name,
+                'tenant_name': tenant[0].get_name,
                 'message': message,
                 'message_notification': message_notification,
             }
@@ -107,7 +107,7 @@ def tenant_rent(request):
             if Payment.objects.filter(tenant_id=request.user.id):
                 receipt = Payment.objects.filter(tenant_id=request.user.id)
             context = {
-                'tenant_name': tenant[0].first_name,
+                'tenant_name': tenant[0].get_name,
                 'message_notification': message_notification,
                 'receipt': receipt
             }
@@ -128,7 +128,7 @@ def tenant_payment(request):
                 message_notification = Announcements.objects.filter(date=today)
                 
             context = {
-                'tenant_name': tenant[0].first_name,
+                'tenant_name': tenant[0].get_name,
                 'message_notification': message_notification,
             }
         return render(request, 'tenant/payments.html', context=context)
