@@ -64,8 +64,7 @@
                         <thead>
                             <tr>
                                 <th>ID No</th>
-                                <th>First Name</th>
-                                <th>Last Name</th>
+                                <th>Full Name</th>
                                 <th>Gender</th>
                                 <th>Phone No</th>
                                 <th>Email</th>
@@ -78,11 +77,10 @@
                             {% for tenant in tenant %}
                             <tr>
                                 <th>{{tenant.id_number}}</th>
-                                <th>{{tenant.first_name}}</th>
-                                <th>{{tenant.last_name}}</th>
+                                <th>{{tenant.get_name}}</th>
                                 <th>{{tenant.gender}}</th>
                                 <th>{{tenant.phone}}</th>
-                                <th>{{tenant.email}}</th>
+                                <th>{{tenant.get_email}}</th>
                                 <th>{{tenant.status}}</th>
                                 <th>{{tenant.joined_date}}</th>
                                 <th>{{tenant.room}}</th>
@@ -102,16 +100,16 @@
                         <thead>
                             <tr>
                                 <th>ID No</th>
-                                <th>First Name</th>
-                                <th>Last Name</th>
+                                <th>Full Name</th>
+                                <th>Room</th>
                                 <th>Date</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr class="active">
                                 <td>id</td>
-                                <td>name</td>
-                                <td>name</td>
+                                <td>full name</td>
+                                <td>room</td>
                                 <td>date</td>
                             </tr>
                         </tbody>

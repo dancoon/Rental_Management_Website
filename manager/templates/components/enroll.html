@@ -6,6 +6,7 @@
         <div class="row">
             <div class="col-lg-8">
                 <h2>Applicants Table</h2>
+                {% if applicant %}
                 <div class="table-responsive">
                     <table class="table table-bordered table-hover">
                         <thead>
@@ -37,6 +38,17 @@
                         </tbody>
                     </table>
                 </div>
+                {% else %}
+                <div class="alert alert-success">
+                    <ul>
+                        <li>
+                            <div>
+                                <strong>No Applicants</strong>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                {% endif %}
             </div>
         </div>
     </div>
