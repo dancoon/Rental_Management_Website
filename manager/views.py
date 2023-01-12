@@ -44,31 +44,15 @@ def owner_rooms_info(request):
     return render(request, 'components/roomsinfo.html', context=context)
 
 def enroll_tenants(request, pk):
-    app = Applicant.objects.get(id=pk)
-    applicants = Applicant.objects.all()
-    rm = app.room_type
-    print(rm) 
-    rm = Room.objects.filter(occupied=False, type='bedsitter').first()
-    room = rm.id
-    house = Room.objects.get(id=room)
+    applicant = Applicant.objects.get(id=pk)
+    rm = Room.objects.filter(occupied=False, type=applicant.room_type).first()
+    house = Room.objects.get(id=rm.id)
+    user = User.objects.get(username=applicant.first_name)
+    new = Tenant(user=user, gender = applicant.gender, phone = applicant.phone, id_number=applicant.id_number, status = True, room_id = rm.id)
+    new.save()
     house.occupied = True
     house.save()
-    user = User.objects.get(username=app.first_name)
-    new = Tenant()
-    new.user = user
-    new.first_name = app.first_name
-    new.last_name = app.last_name
-    new.gender = 'male'
-    new.phone = app.phone
-    new.email = app.email
-    new.id_number = app.id_number
-    new.status = True
-    new.room_id = room
-    new.save()
-    app.delete()
-    context = {
-        'applicants': applicants,
-    }
+    applicant.delete()
     return redirect(reverse('enroll_tenants_view'))         
 
 def enroll_tenants_view(request):
