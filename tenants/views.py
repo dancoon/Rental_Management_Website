@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from .models import Tenant
-from manager.models import Payment, Announcements
+from manager.models import Payment, Announcements, PaymentStatement
 from django.contrib.auth.decorators import login_required,user_passes_test
 from django.utils.timezone import datetime
 from django.contrib.auth.models import User
@@ -123,9 +123,15 @@ def tenant_payment(request):
         if tenantapproval:
             tenant = Tenant.objects.filter(status=True, user_id=request.user.id)
             message_notification = None
+            if request.method == 'POST':
+                tenant_name = request.POST['tenant_name']
+                mode_of_payment = request.POST['mode_of_payment']
+                amount = request.POST['amount']
+                payment_for = request.POST['payment_for']
+                obj = PaymentStatement(tenant_name=tenant_name, mode_of_payment=mode_of_payment, amount=amount, payment_for=payment_for)
+                obj.save()
             if Announcements.objects.filter(to='all'):
-                today = datetime.today()
-                message_notification = Announcements.objects.filter(date=today)
+                message_notification = Announcements.objects.filter(date=datetime.today())
                 
             context = {
                 'tenant_name': tenant[0].get_name,
