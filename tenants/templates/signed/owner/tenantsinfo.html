@@ -1,0 +1,121 @@
+{% extends 'signed/owner/base.html' %}
+{% block content %}
+<div id="page-wrapper">
+    <div class="container-fluid">
+        <!-- Page Heading -->
+        <div class="row">
+            <div class="col-lg-10">
+                <h1 class="page-header">
+                    Tenant's info
+                </h1>
+                <ol class="breadcrumb">
+                    <li>
+                        <i class="fa fa-dashboard"></i>  <a href="index.html">Dashboard</a>
+                    </li>
+                    <li class="active">
+                        <i class="fa fa-table"></i> Tables
+                    </li>
+                </ol>
+            </div>
+        </div>
+        <!-- /.row -->
+        <div class="row">
+            <div class="col-lg-10">
+                <h2>Applicants Table</h2>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>ID No</th>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>Gender</th>
+                                <th>Phone No</th>
+                                <th>Email</th>
+                                <th>Type of room</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for applicant in applicant %}
+                            <tr>
+                                <td>{{applicant.id_number}}</td>
+                                <td>{{applicant.first_name}}</td>
+                                <td>{{applicant.last_name}}</td>
+                                <td>{{applicant.gender}}</td>
+                                <td>{{applicant.phone}}</td>
+                                <td>{{applicant.email}}</td>
+                                <td>{{applicant.room_type}}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-lg-10">
+                <h2>Tenants Table</h2>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover table-striped">
+                        <thead>
+                            <tr>
+                                <th>ID No</th>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>Gender</th>
+                                <th>Phone No</th>
+                                <th>Email</th>
+                                <th>Status</th>
+                                <th>Joined Date</th>
+                                <th>Room</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for tenant in tenant %}
+                            <tr>
+                                <th>{{tenant.id_number}}</th>
+                                <th>{{tenant.first_name}}</th>
+                                <th>{{tenant.last_name}}</th>
+                                <th>{{tenant.gender}}</th>
+                                <th>{{tenant.phone}}</th>
+                                <th>{{tenant.email}}</th>
+                                <th>{{tenant.status}}</th>
+                                <th>{{tenant.joined_date}}</th>
+                                <th>{{tenant.room}}</th>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- /.row -->
+        <div class="row">
+            <div class="col-lg-10">
+                <h2>Clearing Tenants</h2>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover table-striped">
+                        <thead>
+                            <tr>
+                                <th>ID No</th>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="active">
+                                <td>id</td>
+                                <td>name</td>
+                                <td>name</td>
+                                <td>date</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+</div>
+<!-- /#page-wrapper -->
+{% endblock content %}

@@ -7,22 +7,4 @@ urlpatterns = [
     path('signup/', views.signup, name='signup'),
     # path('logout/', views.logout, name='logout'),
     path('application/', views.apply_tenancy, name='apply_tenancy'),
-    #tenant
-    path('tenant/', views.display_tenant_account, name='display_tenant_account'),
-    path('tenant/comment/', views.tenant_comment, name='tenant_comment'),
-    path('tenant/info/', views.tenant_info, name='tenant_info'),
-    path('tenant/rent/', views.tenant_rent, name='tenant_rent'),
-    path('tenant/payment/', views.tenant_payment, name='tenant_payment'),
-    #owner
-    path('owner/', views.display_admin_account, name='display_admin_account'),
-
-    path('owner/tenantsinfo/', views.owner_tenants_info, name='owner_tenants_info'),
-
-    path('owner/roomsinfo/', views.owner_rooms_info, name='owner_rooms_info'),
-
-    path('owner/rents/', views.view_tenants_pay, name='view_tenants_pay'),
-    path('owner/comments/', views.view_comments, name='view_comments'),
-
-    path('owner/enrolltenantsview/', views.enroll_tenants_view, name='enroll_tenants_view'),
-    path('owner/enrolltenants/ <int:pk>', views.enroll_tenants, name='enroll_tenants'),
 ]
