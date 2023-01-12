@@ -1,9 +1,10 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from .models import Tenant
-from core.models import Payment, Announcements
+from manager.models import Payment, Announcements
 from django.contrib.auth.decorators import login_required,user_passes_test
 from django.utils.timezone import datetime
+from django.contrib.auth.models import User
 
 # Create your views here.
 def is_admin(user):
@@ -19,10 +20,10 @@ def display_tenant_account(request):
     if is_tenant(request.user):
         tenantapproval = Tenant.objects.filter(user_id=request.user.id, status=True)
         if tenantapproval:
-            tenant = Tenant.objects.filter(status=True, user_id=request.user.id).first()
+            tenant = Tenant.objects.get(status=True, user_id=request.user.id)
             
             mes = None
-            if Announcements.objects.filter(to='all').count() > 0:
+            if Announcements.objects.filter(to='all').count():
                 today = datetime.today()
                 mes = Announcements.objects.filter(date=today)
 
@@ -35,7 +36,7 @@ def display_tenant_account(request):
                 balance = receipt.balance
 
             context = {
-                'tenant_name': tenant.first_name,
+                'tenant_name': tenant.get_name,
                 'message_notification': mes,
                 'amount': amount,
                 'room_no': tenant.room,

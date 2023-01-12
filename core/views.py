@@ -1,7 +1,9 @@
 from django.shortcuts import render, redirect, reverse
 from django.http import HttpResponse
 from .forms import ApplicationForm
-from .models import Contact, Announcements, Applicant, Payment, Room, PaymentStatement, TenantFeedback
+from manager.models import Contact, Announcements, Payment, Room, PaymentStatement, TenantFeedback
+from .models import Applicant
+from tenants.views import is_tenant
 from django.contrib.auth.models import User, Group
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required,user_passes_test
@@ -29,7 +31,7 @@ def signin(request):
         password = request.POST['pass']
         user = authenticate(request, username=name, email=email, password=password)
         if user:
-            login(request, user)
+            login(request, user)    
             messages.success(request, "Log in success")
             return redirect('/tenant/')
         else:
@@ -46,14 +48,15 @@ def signin(request):
 def signup(request):
     if request.method == 'POST':
         name = request.POST['name']
+        first_name = request.POST['first_name']
+        last_name = request.POST['last_name']
         email = request.POST['email']
         password = request.POST['pass']
-        user = User(username=name, email=email, password=password)
+        user = User(username=name, first_name=first_name, last_name=last_name, email=email, password=password)
         user.set_password(password)
         user.save()
-        my_tenant_group = Group.objects.get(name='TENANT')
-        user.groups.add(my_tenant_group)
-        messages.success(request, "Sign up complete")
+        group, created = Group.objects.get_or_create(name='TENANT')
+        user.groups.add(group.id)
         return redirect('/application/')
     else:        
         return render(request, 'signup.html')
@@ -65,13 +68,10 @@ def apply_tenancy(request):
         if form.is_valid():
             cd = form.cleaned_data
             first_name = cd.get("first_name")
-            last_name = cd.get("last_name")
-            gender = cd.get("username")
-            e = cd.get("email")
             phone = cd.get("phone")
             id_number = cd.get("id_number")
             room_type = cd.get("room_type")
-            applicant = Applicant(first_name=first_name,last_name=last_name,gender=gender,email=e,phone=phone,id_number=id_number,room_type=room_type)        
+            applicant = Applicant(first_name=first_name, phone=phone,id_number=id_number,room_type=room_type)        
             applicant.save()
             return redirect('/signin/')
     context = {
@@ -90,128 +90,6 @@ def is_owner(user):
 def vacant_room():
     room = Room.objects.all().filter(occupied=False)
     return room
-
-
-#tenants behaviour
-@login_required
-@user_passes_test(is_tenant)
-def display_tenant_account(request):
-    if is_tenant(request.user):
-        tenantapproval = Tenant.objects.all().filter(user_id=request.user.id, status=True)
-        if tenantapproval:
-            tenant = Tenant.objects.all().filter(status=True, user_id=request.user.id).first()
-            
-            mes = None
-            if Announcements.objects.all().filter(to='all').count() > 0:
-                today = datetime.today()
-                mes = Announcements.objects.all().filter(date=today)
-
-            stay = None
-            amount = 0
-            balance = 0
-            if Payment.objects.all().filter(tenant_id=request.user.id):
-                receipt = Payment.objects.all().filter(tenant_id=request.user.id).first()
-                amount = receipt.amount
-                balance = receipt.balance
-
-            context = {
-                'tenant_name': tenant.first_name,
-                'message_notification': mes,
-                'amount': amount,
-                'room_no': tenant.room,
-                'balance': balance,
-                'months_stayed': stay,
-            }
-            return render(request, 'signed/tenant/tenant.html', context=context)
-        else:
-            return HttpResponse("Wait for approval")
-    else:
-        return render(request, 'index.html')
-'''
-#tenant to post comments and complains
-@login_required
-@user_passes_test(is_tenant)
-def  (request):
-    if is_tenant(request.user):
-        tenantapproval = Tenant.objects.all().filter(user_id=request.user.id, status=True)
-        if tenantapproval:
-            tenant = Tenant.objects.all().filter(status=True, user_id=request.user.id)
-            message_notification = None
-            if Announcements.objects.all().filter(to='all').count() > 0:
-                today = datetime.today()
-                message_notification = Announcements.objects.all().filter(date=today)
-            
-            context = {
-                'tenant_name': tenant[0].first_name,
-                'message_notification': message_notification,
-            }
-        return render(request, 'signed/tenant/comments.html', context=context)
-
-#to display announcements and other info to tenants
-@login_required
-@user_passes_test(is_tenant)
-def tenant_info(request):
-    if is_tenant(request.user):
-        tenantapproval = Tenant.objects.all().filter(user_id=request.user.id, status=True)
-        if tenantapproval:
-            tenant = Tenant.objects.all().filter(status=True, user_id=request.user.id)
-            message_notification = None
-            message = None
-            if Announcements.objects.all().count() > 0:
-                message = Announcements.objects.all()
-                today = datetime.today()
-                message_notification = Announcements.objects.all().filter(date=today)
-
-            context = {
-                'tenant_name': tenant[0].first_name,
-                'message': message,
-                'message_notification': message_notification,
-            }
-        return render(request, 'signed/tenant/info.html', context)
-
-#to display payment receipts for tenants
-@login_required
-@user_passes_test(is_tenant)
-def tenant_rent(request):
-    if is_tenant(request.user):
-        tenantapproval = Tenant.objects.all().filter(user_id=request.user.id, status=True)
-        if tenantapproval:
-            tenant = Tenant.objects.all().filter(status=True, user_id=request.user.id)
-            message_notification = None
-            if Announcements.objects.all().filter(to='all').count() > 0:
-                today = datetime.today()
-                message_notification = Announcements.objects.filter(date=today)
-            
-            receipt = None
-            if Payment.objects.all().filter(tenant_id=request.user.id):
-                receipt = Payment.objects.all().filter(tenant_id=request.user.id)
-            context = {
-                'tenant_name': tenant[0].first_name,
-                'message_notification': message_notification,
-                'receipt': receipt
-            }
-        return render(request, 'signed/tenant/rent.html', context=context)
-
-
-#tenant to confirm their payment for rent
-@login_required
-@user_passes_test(is_tenant)
-def tenant_payment(request):
-    if is_tenant(request.user):
-        tenantapproval = Tenant.objects.all().filter(user_id=request.user.id, status=True)
-        if tenantapproval:
-            tenant = Tenant.objects.all().filter(status=True, user_id=request.user.id)
-            message_notification = None
-            if Announcements.objects.filter(to='all'):
-                today = datetime.today()
-                message_notification = Announcements.objects.filter(date=today)
-                
-            context = {
-                'tenant_name': tenant[0].first_name,
-                'message_notification': message_notification,
-            }
-        return render(request, 'signed/tenant/payments.html', context=context)
-'''
 
 ########### admin (functionality of landlord and landlady) ##################
 def display_admin_account(request):

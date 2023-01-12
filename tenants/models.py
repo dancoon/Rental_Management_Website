@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils.timezone import datetime
-from core.models import Room
+from manager.models import Room
 
 TYPE_CHOICE = (
     ('bedsitter', 'bedsitter'),
@@ -37,12 +37,9 @@ TWOBEDROOM_RENT = 12500
 
 # Create your models here. 
 class Tenant(models.Model):
-    user=models.OneToOneField(User,on_delete=models.CASCADE)
+    user=models.OneToOneField(User,on_delete=models.CASCADE, related_name='tenant')
     gender = models.CharField(max_length=200, choices=GENDER, default='I prefer not to say')
-    first_name = models.CharField(max_length=50)
-    last_name = models.CharField(max_length=50)
     phone = models.CharField(max_length=15)
-    email = models.EmailField(max_length=254)
     id_number = models.CharField(max_length=50)
     joined_date = models.DateField(auto_now_add=True)
     status = models.BooleanField(default=False)
@@ -56,7 +53,7 @@ class Tenant(models.Model):
     @property
     def get_name(self):
         return self.user.first_name+" "+self.user.last_name
-    
+    @property
     def get_room(self):
         return self.room
 
