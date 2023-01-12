@@ -65,7 +65,9 @@
                 
                
                 <li class="dropdown">
-                    <a href="#" data-toggle="dropdown"><i class="fa fa-user"></i> {{tenant_name}} <b class="caret"></b></a>
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
+                        <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
+                    </a>
                     <ul class="dropdown-menu dropdown-user">
                         <li class="divider"></li>
                         <li><a href="#"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
@@ -76,7 +78,7 @@
                 <!-- /.dropdown -->
             </ul>
         </nav>
-        {% include 'tenant/navtop.html' %}
+        {% include 'components/navtop.html' %}
     {% block content %}
     
     {% endblock content %}  

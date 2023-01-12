@@ -1,4 +1,4 @@
-{% extends 'signed/owner/base.html' %}
+{% extends 'components/base.html' %}
 {% block content %}
 <div id="page-wrapper">
     <div class="container-fluid">
@@ -23,6 +23,7 @@
             <div class="col-lg-6">
                 <h2>Vacant Rooms Table</h2>
                 <div class="table-responsive">
+                    {% if vacant.occupied == False%}
                     <table class="table table-bordered table-hover">
                         <thead>
                             <tr>
@@ -32,15 +33,24 @@
                         </thead>
                         <tbody>
                             {% for vacant in vacant %}
-                            {% if vacant.occupied == False%}
                             <tr>
                                 <td>{{vacant.room}}</td>
                                 <td>{{vacant.type}}</td>
                             </tr>
-                            {% endif %}
                             {% endfor %}
+                            {% else %}
+                            <div class="alert alert-success">
+                                <ul>
+                                    <li>
+                                        <div>
+                                            <strong>No Vacants Currently</strong>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
                         </tbody>
                     </table>
+                    {% endif %}
                 </div>
             </div>
             <div class="col-lg-6">
@@ -49,8 +59,9 @@
                     <table class="table table-bordered table-hover">
                         <thead>
                             <tr>
-                                <th>Room</th>
+                                <th>Room</th> 
                                 <th>Type</th>
+                                <th>Occupied</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -58,6 +69,7 @@
                             <tr>
                                 <td>{{vacant.room}}</td>
                                 <td>{{vacant.type}}</td>
+                                <td>{{vacant.occupied}}</td>
                             </tr>
                             {% endfor %}
                         </tbody>

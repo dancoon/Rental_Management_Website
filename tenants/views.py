@@ -47,7 +47,7 @@ def display_tenant_account(request):
         'balance': balance,
         'months_stayed': stay,
     }
-    return render(request, 'tenant/tenant.html', context=context)
+    return render(request, 'components/tenant.html', context=context)
 
 #tenant to post comments and complains
 @login_required
@@ -67,7 +67,7 @@ def tenant_comment(request):
         'tenant_name': tenant.get_name,
         'message_notification': message_notification,
     }
-    return render(request, 'tenant/comments.html', context=context)
+    return render(request, 'components/tenantscomments.html', context=context)
 
 #to display announcements and other info to tenants
 @login_required
@@ -87,7 +87,7 @@ def tenant_info(request):
         'message': message,
         'message_notification': message_notification,
     }
-    return render(request, 'tenant/info.html', context)
+    return render(request, 'components/info.html', context)
 
 #to display payment receipts for tenants
 @login_required
@@ -107,7 +107,7 @@ def tenant_rent(request):
         'message_notification': message_notification,
         'receipt': receipt
     }
-    return render(request, 'tenant/rent.html', context=context)
+    return render(request, 'components/tenantrent.html', context=context)
 
 #tenant to confirm their payment for rent
 @login_required
@@ -129,4 +129,4 @@ def tenant_payment(request):
         'tenant_name': tenant.get_name,
         'message_notification': message_notification,
     }
-    return render(request, 'tenant/payments.html', context=context)
+    return render(request, 'components/payments.html', context=context)

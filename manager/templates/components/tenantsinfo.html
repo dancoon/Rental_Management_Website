@@ -1,4 +1,4 @@
-{% extends 'signed/owner/base.html' %}
+{% extends 'components/base.html' %}
 {% block content %}
 <div id="page-wrapper">
     <div class="container-fluid">
@@ -22,16 +22,14 @@
         <div class="row">
             <div class="col-lg-10">
                 <h2>Applicants Table</h2>
+                {% if applicant %}
                 <div class="table-responsive">
                     <table class="table table-bordered table-hover">
                         <thead>
                             <tr>
                                 <th>ID No</th>
                                 <th>First Name</th>
-                                <th>Last Name</th>
-                                <th>Gender</th>
                                 <th>Phone No</th>
-                                <th>Email</th>
                                 <th>Type of room</th>
                             </tr>
                         </thead>
@@ -39,17 +37,25 @@
                             {% for applicant in applicant %}
                             <tr>
                                 <td>{{applicant.id_number}}</td>
-                                <td>{{applicant.first_name}}</td>
-                                <td>{{applicant.last_name}}</td>
-                                <td>{{applicant.gender}}</td>
+                                <td>{{applicant.first_name}}</td>                                
                                 <td>{{applicant.phone}}</td>
-                                <td>{{applicant.email}}</td>
                                 <td>{{applicant.room_type}}</td>
                             </tr>
                             {% endfor %}
                         </tbody>
                     </table>
                 </div>
+                {% else %}
+                <div class="alert alert-success">
+                    <ul>
+                        <li>
+                            <div>
+                                <strong>No Applicants Currently</strong>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                {% endif %}
             </div>
             <div class="col-lg-10">
                 <h2>Tenants Table</h2>
@@ -58,8 +64,7 @@
                         <thead>
                             <tr>
                                 <th>ID No</th>
-                                <th>First Name</th>
-                                <th>Last Name</th>
+                                <th>Full Name</th>
                                 <th>Gender</th>
                                 <th>Phone No</th>
                                 <th>Email</th>
@@ -72,11 +77,10 @@
                             {% for tenant in tenant %}
                             <tr>
                                 <th>{{tenant.id_number}}</th>
-                                <th>{{tenant.first_name}}</th>
-                                <th>{{tenant.last_name}}</th>
+                                <th>{{tenant.get_name}}</th>
                                 <th>{{tenant.gender}}</th>
                                 <th>{{tenant.phone}}</th>
-                                <th>{{tenant.email}}</th>
+                                <th>{{tenant.get_email}}</th>
                                 <th>{{tenant.status}}</th>
                                 <th>{{tenant.joined_date}}</th>
                                 <th>{{tenant.room}}</th>
@@ -96,16 +100,16 @@
                         <thead>
                             <tr>
                                 <th>ID No</th>
-                                <th>First Name</th>
-                                <th>Last Name</th>
+                                <th>Full Name</th>
+                                <th>Room</th>
                                 <th>Date</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr class="active">
                                 <td>id</td>
-                                <td>name</td>
-                                <td>name</td>
+                                <td>full name</td>
+                                <td>room</td>
                                 <td>date</td>
                             </tr>
                         </tbody>
