@@ -29,6 +29,21 @@ MESS = (
     ('alert-danger', 'alert-danger'),
 )
 
+MONTH = (
+    ('January', 'January'),
+    ('February', 'February'),
+    ('March', 'March'),
+    ('April', 'April'),
+    ('May', 'May'),
+    ('June', 'June'),
+    ('July', 'July'),
+    ('August', 'August'),
+    ('September', 'September'),
+    ('October', 'October'),
+    ('November', 'November'),
+    ('December', 'December'),
+)
+
 SINGLES_RENT = 3500
 BEDSITTER_RENT = 6500
 ONEBEDROOM_RENT = 8500
@@ -58,13 +73,10 @@ class Payment(models.Model):
     mode = models.CharField(max_length=50)
     amount = models.PositiveBigIntegerField()
     balance = models.PositiveBigIntegerField(default=0)
-    payment_for = models.CharField(max_length=250)
+    payment_for = models.CharField(max_length=250, choices=MONTH)
     date = models.DateField(auto_now_add=True)
     
     @property
-    def month_paid(self):
-        return self.date.month - timezone.now().month
-
     def tenant_balance(self, room_no):
         room = Room.objects.all().filter(room=room_no).last()
         if room.type == 'bedsitter':
@@ -76,15 +88,12 @@ class Payment(models.Model):
         elif room.type == '2 bedroom':
             rent = TWOBEDROOM_RENT
         else:
-            rent = -1
+            rent = 0
 
         return rent - self.amount
 
     def set_balance(self, balance):
         self.balance = balance
-
-    # def set_balance(self):
-        # self.balance = self.amount
     
     def tenant_balance(self, room_no):
         room = Room.objects.all().filter(room=room_no).last()
