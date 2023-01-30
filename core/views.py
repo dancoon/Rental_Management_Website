@@ -46,6 +46,10 @@ def signup(request):
         last_name = request.POST['last_name']
         email = request.POST['email']
         password = request.POST['pass']
+        re_pass = request.POST['re_pass']
+        if password != re_pass:
+            messages.error(request, "Password and Confirm Password do not match!!!")
+            return render(request, 'signup.html')
         user = User(username=name, first_name=first_name, last_name=last_name, email=email, password=password)
         user.set_password(password)
         user.save()
