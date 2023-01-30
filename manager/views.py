@@ -14,7 +14,7 @@ from django.contrib import messages
 def display_admin_account(request):
     applicants = Applicant.objects.all().count()
     month = datetime.now().strftime("%B")
-    payments = 1
+    payments = Payment.objects.filter(payment_for=month).count()
     comments = Contact.objects.all().count()
     rooms = Room.objects.filter(occupied=True).count()
     context = {
